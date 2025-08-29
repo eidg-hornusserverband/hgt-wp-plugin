@@ -15,7 +15,7 @@ class HGVerwaltungFrontend
         (isset($shortcode["class"])) ? $class = $shortcode["class"] : $class = "";
 
 
-        $plugin_content = file_get_contents(WP_PLUGIN_DIR . "/hgv-wp-plugin/frontend/v1/$page.html");
+        $plugin_content = file_get_contents(WP_PLUGIN_DIR . "/hgt-wp-plugin/frontend/v1/$page.html");
         $plugin_content = str_replace("<<hgv_code>>", $hgv_club, $plugin_content);
         $plugin_content = str_replace("<<hgv_mannschaft>>", $mannschaft, $plugin_content);
         $plugin_content = str_replace("<<inklSpiele>>", $inklSpiele, $plugin_content);
@@ -23,6 +23,15 @@ class HGVerwaltungFrontend
         $plugin_content = str_replace("<<jahr>>", $jahr, $plugin_content);
         $plugin_content = str_replace("<<style>>", $style, $plugin_content);
         $plugin_content = str_replace("<<hgv_class>>", $class, $plugin_content);
+        wp_enqueue_script('hgv-script', WP_PLUGIN_URL . "/hgt-wp-plugin/frontend/v1/$page.js", array(), '1.0', true);
+        wp_localize_script('hgv-script', 'hgvScriptData', [
+            'hgv_code' => $hgv_club,
+            'jahr' => $jahr,
+            'mannschaft' => $mannschaft,
+            'inklSpiele' => $inklSpiele,
+            'nurMeisterschaft' => $nurMeisterschaft,
+        ]);
+
         return $plugin_content;
     }
 
@@ -49,7 +58,6 @@ class HGVerwaltungFrontend
 
                 case 'spielerpunktegrafisch':
                     return self::replace_hgvCode("spielerpunktegrafisch", $shortcode);
-                    break;
                     break;
 
                 case 'spielemitresultat':
