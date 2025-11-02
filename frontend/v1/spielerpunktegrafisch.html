@@ -1,6 +1,6 @@
 <script src="https://hgverwaltung.ch/polyfill/v3/polyfill.min.js?features=fetch"></script>
 <script src="https://hgverwaltung.ch/static/hgutil-1.1.js"></script>
-<script src="https://hgverwaltung.ch/static/chart-2.9.3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
 <style>
     /* <![CDATA[ */
@@ -24,13 +24,16 @@
 	/*]]>*/
 </style>
 
-<select id="hg_spielerSelect" ></select>
-<select id="hg_jahrSelect" ></select>
-<span id="hg_alle" >
+<select id="hg_spielerSelect"></select>
+<select id="hg_jahrSelect" <<displayNone-hg_jahrSelect>>></select>
+<span id="hg_alle" <<displayNone-hg_alle>>>
 	<input type="radio" name="alle" value="1" checked>Alle Spiele
 	<input type="radio" name="alle" value="0">Nur Meisterschaft
 </span>
 
-<div id="chart-container" style="<<style>>">
+<div id="chart-container" style="position: relative; height:95vh; width:95vw">
 	<canvas id="chart"></canvas>
 </div>
+
+
+

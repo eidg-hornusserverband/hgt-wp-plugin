@@ -4,7 +4,6 @@
 
 <style>
     /* <![CDATA[ */
-    #hg_teamSelect,
 	#hg_jahrSelect,
 	#hg_inklSpiele,
 	#hg_data {
@@ -44,19 +43,18 @@
 	/*]]>*/
 </style>
 
-<select id="hg_teamSelect" style="display: none;"></select>
-<select id="hg_jahrSelect" style="display: none;"></select>
-<span id="hg_inklSpiele" style="display: none;">
+<select id="hg_jahrSelect" <<displayNone-hg_jahrSelect>>></select>
+<span id="hg_inklSpiele">
 	<input type="radio" name="inklSpiele" value="0" checked>Nur Anl&auml;sse
 	<input type="radio" name="inklSpiele" value="1">Anl&auml;sse + Spiele
 </span>
-<table id="hg_data" class="<<hgv_class>>" style="display: none; <<style>>">
+<table id="hg_data" style="display: none;">
 	<thead>
 		<tr>
 			<th class="sort" data-sort="datum">Start</th>
 			<th class="sort" data-sort="zeit">Zeit</th>
 			<th class="sort" data-sort="ende">Ende</th>
-			<th class="sort" data-sort="endeZeit">Zeit</th>			
+			<th class="sort" data-sort="endeZeit">Zeit</th>
 			<th class="sort" data-sort="art">Anlass</th>
 			<th class="sort" data-sort="team">Mann.</th>
 			<th class="sort" data-sort="ort">Ort</th>
@@ -68,13 +66,25 @@
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>			
+			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
 	</tbody>
+	<tfoot>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tfoot>
 </table>
 
 <table style="display: none;">
@@ -82,7 +92,7 @@
 		<td class="datumDisplay"></td>
 		<td class="zeit"></td>
 		<td class="endeDisplay"></td>
-		<td class="endeZeit"></td>		
+		<td class="endeZeit"></td>
 		<td class="anlass"></td>
 		<td class="team"></td>
 		<td class="ort"></td>
@@ -90,105 +100,5 @@
 	</tr>
 </table>
 
-<script>
-	(function () {
-		var club = "<<hgv_code>>";
-		if (!club) {
-			club = 'test';
-		}
 
-		var aktuellesJahr = (new Date()).getFullYear();
-		var jahrSelect = document.getElementById('hg_jahrSelect');
-		var option = document.createElement("option");
-		option.text = aktuellesJahr;
-		option.value = aktuellesJahr;
-		jahrSelect.appendChild(option);
 
-		option = document.createElement("option");
-		option.text = aktuellesJahr + 1;
-		option.value = aktuellesJahr + 1;
-		jahrSelect.appendChild(option);
-
-		hgutil.loadSelectFromArray('https://www.hgverwaltung.ch/api/1/' + club + '/mannschaften', 'hg_teamSelect', true, getData);
-
-		var hgDataTable = document.getElementById("hg_data");
-		hgDataTable.createTFoot();
-
-		var valueNames = [];
-		var tdElements = document.getElementById('hg_tr_template').getElementsByTagName('td');
-		for (var v = 0; v < tdElements.length; v++) {
-			valueNames.push(tdElements[v].classList[0]);
-		}
-
-		var options = {
-			valueNames: valueNames,
-			listClass: 'hg_list',
-			item: 'hg_tr_template'
-		};
-
-		var dataList = new List('hg_data', options);
-		document.getElementById('hg_jahrSelect').addEventListener("change", getData);
-                document.getElementById('hg_teamSelect').addEventListener("change", getData);
-
-		var allRadios = document.getElementById('hg_inklSpiele').querySelectorAll("input");
-		allRadios[0].addEventListener("change", getData);
-		allRadios[1].addEventListener("change", getData);
-
-		getData();
-
-		function getData() {
-			var jahr = "<<jahr>>";
-			var inklSpiele = "<<inklSpiele>>";
-			var teams = "<<hgv_mannschaft>>";
-			
-
-			if (jahr) {
-				var url = 'https://www.hgverwaltung.ch/api/1/' + club + '/anlaesse/?jahr=' + jahr + '&inklSpiele=' + inklSpiele + '&mannschaft=' + teams;
-				fetch(url).then(function (response) {
-					return response.json();
-				}).then(function (results) {
-					showData(results);
-				});
-			}
-			else {
-				showData([]);
-			}
-		}
-
-		function showData(results) {
-			dataList.clear();
-
-			if (results.length === 0) {
-				document.getElementById('hg_data').style.display = 'none';
-				return;
-			}
-			document.getElementById('hg_data').style.display = '';
-
-			results.forEach(function (row) {
-				row.datumDisplay = row.datum.substring(8, 10) + '.' + row.datum.substring(5, 7) + '.' + row.datum.substring(0, 4);
-				var z = row.datum.substring(11);
-				if (!row.ganzerTag) {
-					row.zeit = z;
-				}
-				else {
-					row.zeit = null;
-				}
-				if (row.ende) {
-					row.endeDisplay = row.ende.substring(8, 10) + '.' + row.ende.substring(5, 7) + '.' + row.ende.substring(0, 4);
-					var z = row.ende.substring(11);
-					if (!row.ganzerTag) {
-						row.endeZeit = z;
-					}
-					else {
-						row.endeZeit = null;
-					}
-				}
-			});
-			dataList.add(results);
-
-			dataList.sort('datum', { order: "asc" });
-		}
-
-	})();
-
-</script>

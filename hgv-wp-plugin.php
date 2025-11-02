@@ -9,7 +9,9 @@ Author URI: https://ehv.ch
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 $hgv_pluginName = "HGVerwaltung";
 $hgv_optionsCode = "wpv_code";
@@ -89,6 +91,11 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 
 //Set the branch that contains the stable release.
 $myUpdateChecker->setBranch('main');
+
+function hgv_register_block($attributes) {
+    register_block_type( __DIR__ . '/src/blocks.json' );
+}
+add_action( 'init', 'hgv_register_block' );
 
 
 

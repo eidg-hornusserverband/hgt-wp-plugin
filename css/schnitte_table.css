@@ -7,94 +7,108 @@ and open the template in the editor.
     Created on : Jan 15, 2015, 11:03:13 AM
     Author     : Reto
 */
-.schnittinput{
+.schnittinput {
     width: 50px;
 }
-.schlagTotal{
-    width:50px !important;
+
+.schlagTotal {
+    width: 50px !important;
     border: none !important;
-    background:none !important;
+    background: none !important;
     box-shadow: none !important;
     border-bottom: #ddd solid 1px !important;
 }
-.name
-{
+
+.name {
     vertical-align: bottom !important;
 
 }
-select{
-    height:auto !important;
+
+select {
+    height: auto !important;
 }
-.uber{
-    width:auto;
+
+.uber {
+    width: auto;
 }
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.button{
+.button {
     width: auto;
 }
-.buttonh{
+
+.buttonh {
     width: auto;
     display: none !important;
 }
 
-.calcButton{
+.calcButton {
     width: auto;
 }
 
 
 @media only screen and (max-width: 800px) {
-    .schnittinput, .schlagTotal{
+
+    .schnittinput,
+    .schlagTotal {
         width: 30px !important;
-        border:none !important;
-        height:30px !important;
+        border: none !important;
+        height: 30px !important;
         font-size: 10pt !important;
-        padding:1px !important;
+        padding: 1px !important;
         text-align: center;
     }
 
-    td{
-        width:40px !important;
+    td {
+        width: 40px !important;
         padding: 0px !important;
         margin: 0px;
         display: inline !important;
 
     }
-    th{
+
+    th {
         display: inline !important;
 
     }
-    table{
-        width:auto !important;
+
+    table {
+        width: auto !important;
     }
-    .name{
+
+    .name {
         display: none !important;
     }
-    .namewidth{
+
+    .namewidth {
         display: block !important;
     }
 }
+
 @media only screen and (min-width: 801px) {
-    .name{
+    .name {
         display: inline !important;
         max-width: 300px;
     }
-    .namewidth{
+
+    .namewidth {
         display: none !important;
     }
-    td{
-        width:50px;
-        padding:0px !important;
+
+    td {
+        width: 50px;
+        padding: 0px !important;
         margin: 0px;
 
     }
-    table
-    {
-        width:auto !important;
+
+    table {
+        width: auto !important;
     }
 
 }

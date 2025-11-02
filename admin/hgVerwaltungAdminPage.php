@@ -35,7 +35,9 @@ foreach ($date_formats as $format) {
 }
 
 $output .= '<label><input type="radio" name="hgv[date_format]" id="date_format_custom_radio" value="custom"';
-if ($custom) { $output .= " checked='checked'"; }
+if ($custom) {
+    $output .= " checked='checked'";
+}
 $output .= '/> <span class="date-time-text date-time-custom-text">' . _('Custom:') . '<span class="screen-reader-text"> ' . _('enter a custom date format in the following field') . '</span></span></label>' .
     '<label for="date_format_custom" class="screen-reader-text">' . _('Custom date format:') . '</label>' .
     '<input type="text" name="hgv[date_format_custom]" id="date_format_custom" value="' . esc_attr(get_option('wpv_date_format')) . '" />' .

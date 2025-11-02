@@ -1,42 +1,45 @@
 .hg-manager-schnitte-table-public td:nth-child(6),
-.hg-manager-schnitte-table-public th:nth-child(6)
-{display: none;}
+.hg-manager-schnitte-table-public th:nth-child(6) {
+    display: none;
+}
 
 .hg-manager-schnitte-table-public th:nth-child(1),
-.hg-manager-schnitte-table-public td:nth-child(1)
-{
-    width:35pt;
-    white-space:nowrap;
+.hg-manager-schnitte-table-public td:nth-child(1) {
+    width: 35pt;
+    white-space: nowrap;
 }
+
 .hg-manager-schnitte-table-public th:nth-child(2),
-.hg-manager-schnitte-table-public td:nth-child(2)
-{
-    width:150pt;
+.hg-manager-schnitte-table-public td:nth-child(2) {
+    width: 150pt;
 }
+
 .hg-manager-schnitte-table-public th:nth-child(3),
-.hg-manager-schnitte-table-public td:nth-child(3)
-{
-    width:80pt;
-    white-space:nowrap;
+.hg-manager-schnitte-table-public td:nth-child(3) {
+    width: 80pt;
+    white-space: nowrap;
 }
+
 .hg-manager-schnitte-table-public td:nth-child(3),
-    .hg-manager-schnitte-table-public th:nth-child(3),
-    .hg-manager-schnitte-table-public td:nth-child(4),
-    .hg-manager-schnitte-table-public th:nth-child(4),
-    .hg-manager-schnitte-table-public td:nth-child(5),
-    .hg-manager-schnitte-table-public th:nth-child(5)
-    {text-align: right;}
+.hg-manager-schnitte-table-public th:nth-child(3),
+.hg-manager-schnitte-table-public td:nth-child(4),
+.hg-manager-schnitte-table-public th:nth-child(4),
+.hg-manager-schnitte-table-public td:nth-child(5),
+.hg-manager-schnitte-table-public th:nth-child(5) {
+    text-align: right;
+}
 
 
-.hg-manager-schnitte-table-public tr:nth-child(odd){
+.hg-manager-schnitte-table-public tr:nth-child(odd) {
     background-color: #cccccc;
-    }
+}
 
-.hg_manager_schnitt_small_text{
-    font-size:10px;
+.hg_manager_schnitt_small_text {
+    font-size: 10px;
     font-style: italic;
 }
-.hg_manager_schnitt_text{
+
+.hg_manager_schnitt_text {
     text-align: right;
 }
 
@@ -48,10 +51,13 @@
     .hg-manager-schnitte-table-public td:nth-child(4),
     .hg-manager-schnitte-table-public th:nth-child(4),
     .hg-manager-schnitte-table-public td:nth-child(5),
-    .hg-manager-schnitte-table-public th:nth-child(5)
-    {display: none;}
+    .hg-manager-schnitte-table-public th:nth-child(5) {
+        display: none;
+    }
+
     .hg-manager-schnitte-table-public td:nth-child(6),
-    .hg-manager-schnitte-table-public th:nth-child(6)
-    {display: table-cell;}
+    .hg-manager-schnitte-table-public th:nth-child(6) {
+        display: table-cell;
+    }
 
 }

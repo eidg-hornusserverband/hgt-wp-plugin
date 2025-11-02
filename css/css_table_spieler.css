@@ -1,12 +1,10 @@
 .hg-manager-spieler-table td:nth-child(8),
-.hg-manager-spieler-table th:nth-child(8)
-{
+.hg-manager-spieler-table th:nth-child(8) {
     display: none;
 }
 
 
-@media only screen and (max-width: 800px) {
-}
+@media only screen and (max-width: 800px) {}
 
 
 @media only screen and (max-width: 640px) {
@@ -20,11 +18,13 @@
     .hg-manager-spieler-table td:nth-child(6),
     .hg-manager-spieler-table th:nth-child(6),
     .hg-manager-spieler-table td:nth-child(7),
-    .hg-manager-spieler-table th:nth-child(7)
-    {display: none;}
+    .hg-manager-spieler-table th:nth-child(7) {
+        display: none;
+    }
 
     .hg-manager-spieler-table td:nth-child(8),
-    .hg-manager-spieler-table th:nth-child(8)
-    {display: block;	}
+    .hg-manager-spieler-table th:nth-child(8) {
+        display: block;
+    }
 
 }

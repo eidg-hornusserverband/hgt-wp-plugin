@@ -1,147 +1,160 @@
-console.log(hgvScriptData);
 (function () {
-    var club = hgvScriptData.hgv_code;
-    if (!club) {
-        club = 'test';
-    }
-    hgutil.loadSelectFromArray('https://www.hgverwaltung.ch/api/1/' + club + '/spiele/jahre', 'hg_jahrSelect', true, getData);
-    hgutil.loadSelectFromArray('https://www.hgverwaltung.ch/api/1/' + club + '/mannschaften?spiele=true', 'hg_teamSelect', true, getData);
+		var club = hgvScriptData.hgv_code;
+		if (!club) {
+		  club = 'test';
+		}
 
-    var hgDataTable = document.getElementById("hg_data");
-    hgDataTable.createTFoot();
+		var mannschaft = hgvScriptData.hgv_mannschaft;
+		if (!mannschaft) {
+			
+		}
 
-    var valueNames = [];
-    var tdElements = document.getElementById('hg_tr_template').getElementsByTagName('td');
-    for (var v = 0; v < tdElements.length; v++) {
-        valueNames.push(tdElements[v].classList[0]);
-    }
+		hgutil.loadSelectFromArray('https://www.hgverwaltung.ch/api/1/' + club + '/spiele/jahre', 'hg_jahrSelect', true, getData);
+		hgutil.loadSelectFromArray('https://www.hgverwaltung.ch/api/1/' + club + '/mannschaften?spiele=true', 'hg_teamSelect', true, getData);
 
-    var options = {
-        valueNames: valueNames,
-        listClass: 'hg_list',
-        item: 'hg_tr_template',
-        sortFunction: hgutil.sortFunction
-    };
-    var dataList = new List('hg_data', options);
+		var hgDataTable = document.getElementById("hg_data");
+		hgDataTable.createTFoot();
 
-    document.getElementById('hg_jahrSelect').addEventListener("change", getData);
-    document.getElementById('hg_teamSelect').addEventListener("change", getData);
-    var allRadios = document.getElementById('hg_alle').querySelectorAll("input");
+		var valueNames = [];
+		var tdElements = document.getElementById('hg_tr_template').getElementsByTagName('td');
+		for (var v = 0; v < tdElements.length; v++) {
+			valueNames.push(tdElements[v].classList[0]);
+		}
 
-    allRadios[0].addEventListener("change", getData);
-    allRadios[1].addEventListener("change", getData);
+		var options = {
+			valueNames: valueNames,
+			listClass: 'hg_list',
+			item: 'hg_tr_template',
+			sortFunction: hgutil.sortFunction
+		};
 
-    function getData() {
-        var jahr = hgvScriptData.jahr;
-        var teams = hgvScriptData.mannschaft;
-        var nurMeisterschaft = hgvScriptData.nurMeisterschaft;
-        var alle = nurMeisterschaft;
+		var dataList = new List('hg_data', options);
 
-        if (jahr && teams && teams.length > 0) {
-            var url = 'https://www.hgverwaltung.ch/api/1/' + club + '/durchschnitt/' + teams + '?alle=' + alle + '&jahr=' + jahr;
-            fetch(url).then(function (response) {
-                return response.json();
-            }).then(function (results) {
-                showData(results);
-            });
-        }
-        else {
-            showData([]);
-        }
-    }
+		document.getElementById('hg_jahrSelect').addEventListener("change", getData);
+		document.getElementById('hg_teamSelect').addEventListener("change", getData);
+		var allRadios = document.getElementById('hg_alle').querySelectorAll("input");
 
-    function showData(results) {
-        dataList.clear();
+		allRadios[0].addEventListener("change", getData);
+		allRadios[1].addEventListener("change", getData);
 
-        //remove total rows
-        var tfoot = document.getElementById('hg_data').getElementsByTagName('tfoot')[0];
-        while (tfoot.firstChild) {
-            tfoot.removeChild(tfoot.firstChild);
-        }
+		function getData() {
+			var jahr = document.getElementById('hg_jahrSelect').value;
+			var teams;
+			if (!mannschaft) {
+				teams = Array.prototype.slice.call(document.querySelectorAll('#hg_teamSelect option:checked'), 0).map(function (v) {
+					return v.value;
+				});
+			} else {
+			    teams = mannschaft.split(',');
+			}	
+			var alle = document.querySelector('#hg_alle input[name="alle"]:checked').value;
 
-        if (results.length === 0) {
-            document.getElementById('hg_data').style.display = 'none';
-            return;
-        }
-        document.getElementById('hg_data').style.display = '';
+			if (jahr && teams && teams.length > 0) {
+				var url = 'https://www.hgverwaltung.ch/api/1/' + club + '/durchschnitt/' + teams.join(',').replace(/\//g,'--') + '?alle=' + alle + '&jahr=' + jahr;
+				fetch(url).then(function (response) {
+					return response.json();
+				}).then(function (results) {
+					showData(results);
+				});
+			}
+			else {
+				showData([]);
+			}
+		}
 
-        var totalPunkte = 0;
-        var totalStreiche = 0;
-        var totalRp = 0;
-        var totalRies = [];
-        for (i = 0; i < 8; i++) {
-            totalRies.push(0);
-        }
+		function showData(results) {
+			dataList.clear();
 
-        results.forEach(function (row) {
-            if (row.schnitt && row.schnittVorjahr) {
-                row.diff = (parseFloat(row.schnitt) - parseFloat(row.schnittVorjahr)).toFixed(2);
-            }
+			//remove total rows
+			var tfoot = document.getElementById('hg_data').getElementsByTagName('tfoot')[0];
+			while (tfoot.firstChild) {
+				tfoot.removeChild(tfoot.firstChild);
+			}
 
-            if (row.schnitt) {
-                row.schnitt = row.schnitt.toFixed(2);
-            }
+			if (results.length === 0) {
+				document.getElementById('hg_data').style.display = 'none';
+				return;
+			}
+			document.getElementById('hg_data').style.display = '';
 
-            if (row.streiche) {
-                totalStreiche += row.streiche;
-            }
+			var totalPunkte = 0;
+			var totalStreiche = 0;
+			var totalRp = 0;
+			var totalRies = [];
+			for (i = 0; i < 8; i++) {
+				totalRies.push(0);
+			}
 
-            if (row.punkte) {
-                totalPunkte += row.punkte;
-            }
+			results.forEach(function (row) {
+				if (row.schnitt && row.schnittVorjahr) {
+					row.diff = (parseFloat(row.schnitt) - parseFloat(row.schnittVorjahr)).toFixed(2);
+				}
 
-            if (row.rangpunkte) {
-                totalRp += row.rangpunkte;
-            }
+				if (row.schnitt) {
+					row.schnitt = row.schnitt.toFixed(2);
+				}
 
-        });
-        dataList.add(results);
+				if (row.streiche) {
+					totalStreiche += row.streiche;
+				}
 
-        // css class 'negative' und 'positive' in der diff spalte hinzufÃ¼gen
-        var i = 0;
-        var diffTds = document.getElementById('hg_data').querySelectorAll('td.diff');
-        for (; i < diffTds.length; i++) {
-            var diffTd = diffTds[i];
-            var value = parseFloat(diffTd.textContent);
-            if (value >= 0) {
-                diffTd.classList.add('positive');
-            }
-            else if (value < 0) {
-                diffTd.classList.add('negative');
-            }
-        }
+				if (row.punkte) {
+					totalPunkte += row.punkte;
+				}
 
-        //sortierung nach schnitt
-        dataList.sort('schnitt', { order: "desc" });
+				if (row.rangpunkte) {
+					totalRp += row.rangpunkte;
+				}
 
-        // mannschaftstotal
-        if (totalStreiche > 0) {
-            var totalRow = document.getElementById('hg_total_tr').cloneNode(true);
-            totalRow.querySelector(".total_label").textContent = 'Mannschaftstotal';
-            totalRow.querySelector(".total_punkte").textContent = totalPunkte;
-            totalRow.querySelector(".total_streiche").textContent = totalStreiche;
-            totalRow.querySelector(".total_schnitt").textContent = (totalPunkte / totalStreiche).toFixed(2);
-            totalRow.querySelector(".total_rangpunkte").textContent = totalRp;
-            tfoot.appendChild(totalRow);
-        }
+			});
+			dataList.add(results);
 
-        // rangpunkte verstecken wenn nachwuchs
-        var teams = Array.prototype.slice.call(document.querySelectorAll('#hg_teamSelect option:checked'), 0).map(function (v) {
-            return v.value;
-        });
-        if (teams.length === 1 && teams[0] === 'NW') {
-            document.getElementById('hg_rangpunkte_header').style.display = 'none';
-            document.getElementById('hg_rangpunkte_footer').style.display = 'none';
+			// css class 'negative' und 'positive' in der diff spalte hinzufügen
+			var i = 0;
+			var diffTds = document.getElementById('hg_data').querySelectorAll('td.diff');
+			for (; i < diffTds.length; i++) {
+				var diffTd = diffTds[i];
+				var value = parseFloat(diffTd.textContent);
+				if (value >= 0) {
+					diffTd.classList.add('positive');
+				}
+				else if (value < 0) {
+					diffTd.classList.add('negative');
+				}
+			}
 
-            var rangpunkteTds = document.getElementById('hg_data').querySelectorAll("td.rangpunkte");
-            for (i = 0; i < rangpunkteTds.length; i++) {
-                rangpunkteTds[i].style.display = 'none';
-            }
-        }
-        else {
-            document.getElementById('hg_rangpunkte_header').style.display = '';
-            document.getElementById('hg_rangpunkte_footer').style.display = '';
-        }
-    }
+			//sortierung nach schnitt
+			dataList.sort('schnitt', { order: "desc" });
 
-})();
+			// mannschaftstotal
+			if (totalStreiche > 0) {
+				var totalRow = document.getElementById('hg_total_tr').cloneNode(true);
+				totalRow.querySelector(".total_label").textContent = 'Mannschaftstotal';
+				totalRow.querySelector(".total_punkte").textContent = totalPunkte;
+				totalRow.querySelector(".total_streiche").textContent = totalStreiche;
+				totalRow.querySelector(".total_schnitt").textContent = (totalPunkte / totalStreiche).toFixed(2);
+				totalRow.querySelector(".total_rangpunkte").textContent = totalRp;
+				tfoot.appendChild(totalRow);
+			}
+
+			// rangpunkte verstecken wenn nachwuchs
+			var teams = Array.prototype.slice.call(document.querySelectorAll('#hg_teamSelect option:checked'), 0).map(function (v) {
+				return v.value;
+			});
+			if (teams.length === 1 && teams[0] === 'NW') {
+				document.getElementById('hg_rangpunkte_header').style.display = 'none';
+				document.getElementById('hg_rangpunkte_footer').style.display = 'none';
+
+				var rangpunkteTds = document.getElementById('hg_data').querySelectorAll("td.rangpunkte");
+				for (i = 0; i < rangpunkteTds.length; i++) {
+					rangpunkteTds[i].style.display = 'none';
+				}
+			}
+			else {
+				document.getElementById('hg_rangpunkte_header').style.display = '';
+				document.getElementById('hg_rangpunkte_footer').style.display = '';
+			}
+		}
+
+	})();
+

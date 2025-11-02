@@ -1,4 +1,3 @@
-
 <script src="https://hgverwaltung.ch/polyfill/v3/polyfill.min.js?features=fetch"></script>
 <script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
 <script src="https://hgverwaltung.ch/static/hgutil-1.2.js"></script>
@@ -10,6 +9,10 @@
 	#hg_data,
 	#hg_alle {
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	}
+
+	#hg_teamSelect {
+	    display: none;
 	}
 
 	#hg_jahrSelect,
@@ -70,14 +73,14 @@
 	/*]]>*/
 </style>
 
-<select id="hg_teamSelect" size="3" multiple style="display:none" ></select>
-<select id="hg_jahrSelect" style="display:none" ></select>
-<span id="hg_alle" style="display:none" >
-	<input type="radio" name="alle" value="1" checked style="display:none" >Alle Spiele
-	<input type="radio" name="alle" value="0" style="display:none" >Nur Meisterschaft
+<select id="hg_teamSelect" size="3" multiple <<displayNone-hg_teamSelect>>></select>
+<select id="hg_jahrSelect" <<displayNone-hg_jahrSelect>>></select>
+<span id="hg_alle" <<displayNone-hg_alle>>>
+	<input type="radio" name="alle" value="1" checked>Alle Spiele
+	<input type="radio" name="alle" value="0">Nur Meisterschaft
 </span>
 
-<table id="hg_data" class="<<hgv_class>>" style="display: none; <<style>>">
+<table id="hg_data" style="display: none;">
 	<thead>
 		<tr>
 			<th class="sort" data-sort="nachname">Nachname</th>
@@ -94,7 +97,7 @@
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>			
+			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -105,11 +108,11 @@
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>			
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-		</tr>	
+			<td>&nbsp;</td>
+		</tr>
 	</tfoot>
 </table>
 
@@ -132,3 +135,6 @@
 		<td class="total_rangpunkte hg_number" id="hg_rangpunkte_footer"></td>
 	</tr>
 </table>
+
+
+

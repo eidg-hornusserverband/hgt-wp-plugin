@@ -42,10 +42,10 @@
 	/*]]>*/
 </style>
 
-<select id="hg_teamSelect" size="3" multiple style="display:none" ></select>
-<select id="hg_jahrSelect" style="display:none" ></select>
+<select id="hg_teamSelect" size="3" multiple <<displayNone-hg_teamSelect>>></select>
+<select id="hg_jahrSelect" <<displayNone-hg_jahrSelect>>></select>
 
-<table id="hg_data" class="<<hgv_class>>" style="display: none; <<style>>">
+<table id="hg_data" style="display: none;">
 	<thead>
 		<tr>
 			<th class="sort" data-sort="datum">Datum</th>
@@ -84,4 +84,6 @@
 		<td class="spielort"></td>
 	</tr>
 </table>
+
+
 
