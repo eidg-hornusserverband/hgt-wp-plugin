@@ -1,0 +1,180 @@
+<script src="https://hgverwaltung.ch/polyfill/v3/polyfill.min.js?features=fetch"></script>
+<script src="https://hgverwaltung.ch/static/hgutil-1.1.js"></script>
+
+<style>
+    /* <![CDATA[ */
+	.hg_content {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		padding: 10px;
+	}
+
+	.hg_content h1 {
+		font-size: 26px;
+		font-weight: bold;
+		margin-left: 10px;
+	}
+
+	.nr {
+		border-bottom-color: black;
+		border-bottom-width: 3px;
+		border-bottom-style: solid;
+	}
+
+	.hg_number {
+		text-align: right;
+		padding-right: 3px;
+	}
+
+	.reihenfolge {
+		padding: 0 15px 0 10px !important;
+	}
+
+	td.nachname {
+		width: 150px;
+	}
+
+	td.vorname {
+		width: 150px;
+	}
+
+	td.ries {
+		width: 50px;
+	}
+
+	td.total {
+		width: 70px;
+	}
+
+	td.rangpunkt {
+		width: 70px;
+	}
+
+	td.total,
+	tr.total td {
+		font-weight: bold;
+	}
+
+	#hg_spieler_header th,
+	#hg_header th {
+		text-align: left;
+	}
+
+	#hg_spieler_header th.hg_number,
+	#hg_header th.hg_number {
+		text-align: right;
+		padding-right: 3px;
+	}
+
+	#hg_spieler {
+		margin-top: 20px;
+	}
+
+	#hg_spieler tfoot {
+		line-height: 2.2em;
+	}
+
+	#hg_spieler thead {
+		line-height: 2.2em;
+	}
+
+	#hg_bericht {
+		margin-top: 15px;
+		width: 90%;
+		margin-left: 15px;
+		font-size: 14px;
+	}
+
+	#hg_ueber_spieler {
+		margin-top: 5px;
+	}
+
+	#hg_header {
+		margin-left: 10px;
+	}
+
+	#hg_header th {
+		text-transform: uppercase;
+		font-size: 10px;
+		padding: 3px;
+	}
+
+	#hg_header .mannschaft {
+		width: 200px;
+	}
+
+	#hg_header .hg_number {
+		width: 100px;
+	}
+
+	#hg_first td {
+		font-weight: bold;
+	}
+
+	#hg_first td,
+	#hg_second td {
+		font-size: 18px;
+		padding: 3px;
+	}
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
+	/*]]>*/
+</style>
+
+<div class="hg_content">
+	<h1 id="hg_title">
+		<span id="hg_art"></span> vom
+		<span id="hg_datum"></span>
+	</h1>
+	<table id="hg_header">
+		<tr>
+			<th class="mannschaft">Mannschaft</th>
+			<th class="hg_number" id="hg_rp_header">Rangpunkte</th>
+			<th class="hg_number">Nummer</th>
+			<th class="hg_number">Punkte</th>
+		</tr>
+		<tr id="hg_first">
+			<td>
+				<a href="#" id="hg_mann1"></a>
+			</td>
+			<td class="hg_number" id="hg_rp1"></td>
+			<td class="hg_number" id="hg_nr1"></td>
+			<td class="hg_number" id="hg_pu1"></td>
+		</tr>
+		<tr id="hg_second">
+			<td>
+				<a href="#" id="hg_mann2"></a>
+			</td>
+			<td class="hg_number" id="hg_rp2"></td>
+			<td class="hg_number" id="hg_nr2"></td>
+			<td class="hg_number" id="hg_pu2"></td>
+		</tr>
+	</table>
+
+	<div id="hg_bericht"></div>
+
+	<table id="hg_spieler">
+		<thead>
+			<tr id="hg_spieler_header">
+                          <td>&nbsp;</td>
+			</tr>
+		</thead>
+		<tbody>
+                  <tr><td>&nbsp;</td></tr>
+		</tbody>
+		<tfoot>
+                  <tr><td>&nbsp;</td></tr>
+		</tfoot>
+	</table>
+
+	<table id="hg_ueber_spieler">
+		<tbody>
+                  <tr><td>&nbsp;</td></tr>
+		</tbody>
+	</table>
+
+</div>
+
+

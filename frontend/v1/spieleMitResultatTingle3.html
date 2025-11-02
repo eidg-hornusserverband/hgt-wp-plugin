@@ -1,0 +1,301 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<script src="https://hgverwaltung.ch/polyfill/v3/polyfill.min.js?features=fetch"></script>
+<script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
+<script src="https://hgverwaltung.ch/static/hgutil-1.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tingle.js@0.16.0/dist/tingle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/tingle.js@0.16.0/dist/tingle.min.css" rel="stylesheet">
+
+<style>
+    /* <![CDATA[ */
+    #hg_jahrSelect,
+    #hg_teamSelect,
+    #hg_data {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    #hg_jahrSelect {
+        vertical-align: top;
+    }
+
+    #hg_data tbody tr:nth-child(odd) {
+        background-color: #ebeff4;
+    }
+
+    #hg_data .hg_number {
+        text-align: right;
+        padding-right: 5px;
+    }
+
+    #hg_data tr {
+        text-align: left;
+    }
+
+    #hg_data th {
+        cursor: default;
+    }
+
+    #hg_data td,
+    #hg_data th {
+        padding-left: 3px;
+        padding-right: 10px;
+    }
+
+    #hg_data .sort.asc::after {
+        content: "\25b2";
+    }
+
+    #hg_data .sort.desc::after {
+        content: "\25bc";
+    }
+
+    #hg_data td {
+        white-space: nowrap;
+    }
+
+    .spiellistelink {
+        color: gray;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    /* detail css */
+
+    .tingle-modal-box__content {
+        padding: 1rem;
+    }
+
+    .tingle-modal--overflow {
+        padding-top: 3vh;
+    }
+
+    .tingle-modal-box {
+        width: 90vw !important;
+    }
+
+    .hg_detail {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        margin-left: 10px;
+    }
+
+    .hg_detail h1 {
+        font-size: 26px;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .hg_detail .nr {
+        border-bottom-color: black;
+        border-bottom-width: 3px;
+        border-bottom-style: solid;
+    }
+
+    .hg_detail .hg_number {
+        text-align: right;
+        padding-right: 3px;
+    }
+
+    .hg_detail .reihenfolge {
+        padding: 0 15px 0 10px !important;
+    }
+
+    .hg_detail td.nachname {
+        width: 150px;
+    }
+
+    .hg_detail td.vorname {
+        width: 150px;
+    }
+
+    .hg_detail td.ries {
+        width: 50px;
+    }
+
+    .hg_detail td.total {
+        width: 70px;
+    }
+
+    .hg_detail td.rangpunkt {
+        width: 70px;
+    }
+
+    .hg_detail td.total,
+    .hg_detail tr.total td {
+        font-weight: bold;
+    }
+
+    #hg_spieler_header th,
+    #hg_header th,
+    #hg_spieler_header_g th {
+        text-align: left;
+    }
+
+    #hg_spieler_header th.hg_number,
+    #hg_header th.hg_number,
+    #hg_spieler_header_g th.hg_number {
+        text-align: right;
+        padding-right: 3px;
+    }
+
+    #hg_spieler,
+    #hg_spieler_g {
+        margin-top: 20px;
+    }
+
+    #hg_spieler tfoot,
+    #hg_spieler_g tfoot {
+        line-height: 2.2em;
+    }
+
+    #hg_spieler thead,
+    #hg_spieler_g thead {
+        line-height: 2.2em;
+    }
+
+    #hg_bericht {
+        margin-top: 15px;
+        width: 90%;
+        margin-left: 15px;
+        font-size: 16px;
+    }
+
+    #hg_ueber_spieler {
+        margin-top: 5px;
+    }
+
+    #hg_header {
+        white-space: nowrap;
+        margin-left: 10px;
+    }
+
+    #hg_header th {
+        text-transform: uppercase;
+        font-size: 16px;
+        padding: 3px;
+    }
+
+    #hg_header .mannschaft {
+        width: 200px;
+    }
+
+    #hg_header .hg_number {
+        width: 100px;
+    }
+
+    #hg_first td,
+    #hg_second td {
+        font-size: 18px;
+        padding: 3px;
+    }
+
+    #hg_first td {
+        font-weight: bold;
+    }
+
+    .hg_detail a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .hg_spieler_1 {
+        font-size: 14px;
+        width: 510px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .hg_spieler_2 {
+        font-size: 14px;
+        width: 510px;
+        margin-left: 80px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    @media (max-width: 1050px) {
+        .hg_spieler_1 {
+            width: 100vw;
+        }
+
+        .hg_spieler_2 {
+            width: 100vw;
+            margin-left: 0;
+        }
+
+        .tingle-modal-box {
+            width: 100vw !important;
+        }
+    }
+    /*]]>*/
+</style>
+
+<select id="hg_teamSelect" size="3" multiple <<displayNone-hg_teamSelect>>></select>
+<select id="hg_jahrSelect" <<displayNone-hg_jahrSelect>>></select>
+
+<table id="hg_data" style="display: none;">
+    <thead>
+    <tr>
+        <th class="sort" data-sort="datum">Datum</th>
+        <th class="sort" data-sort="zeit">Zeit</th>
+        <th class="sort" data-sort="art">Anlass</th>
+        <th class="sort" data-sort="team">Mannschaft</th>
+        <th class="sort" data-sort="gegner">Gegner</th>
+        <th class="sort" data-sort="spielort">Ort</th>
+        <th class="sort" data-sort="totalNr">Nr</th>
+        <th class="sort" data-sort="schlagPunkte">Punkte</th>
+        <th class="sort" data-sort="totalNrGegner">Nr Gegner</th>
+        <th class="sort" data-sort="schlagPunkteGegner">Punkte Gegner</th>
+        <th></th>
+    </tr>
+    </thead>
+	<tbody class="hg_list">
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tfoot>
+</table>
+
+<table style="display: none;">
+    <tr id="hg_tr_template">
+        <td class="datumDisplay"></td>
+        <td class="zeit"></td>
+        <td class="art"></td>
+        <td class="team"></td>
+        <td class="gegner"></td>
+        <td class="spielort"></td>
+        <td class="totalNr hg_number"></td>
+        <td class="schlagPunkte hg_number"></td>
+        <td class="totalNrGegner hg_number"></td>
+        <td class="schlagPunkteGegner hg_number"></td>
+        <td>
+            <a href="#" class="spiellistelink"></a>
+        </td>
+    </tr>
+</table>
+
+
+

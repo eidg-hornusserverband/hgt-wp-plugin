@@ -1,0 +1,81 @@
+<script src="https://hgverwaltung.ch/polyfill/v3/polyfill.min.js?features=fetch"></script>
+<script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
+<script src="https://hgverwaltung.ch/static/hgutil-1.1.js"></script>
+
+<style>
+    /* <![CDATA[ */
+	body,
+	#hg_jahrSelect,
+	#hg_teamSelect,
+	#hg_alle {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	}
+
+	#hg_jahrSelect,
+	#hg_alle,
+	#hg_alle input {
+		vertical-align: top;
+	}
+
+	.rowSpieler h6 {
+		font-size: 18px;
+		margin-top: 2px;
+		margin-left: 10px;
+		margin-bottom: 0px;
+		margin-right: 0px;
+	}
+
+	.rowSpieler h6 .jahrgang {
+		font-size: 14px;
+	}
+
+	.rowSpieler {
+		margin-top: 10px;
+		margin-left: 5px;
+		padding-bottom: 10px;
+		display: flex;
+		flex-direction: row;
+		border-bottom: 1px dashed #ccc;
+	}
+
+	.rowSpieler img {
+		align-self: flex-end;
+		width: 100px;
+	}
+
+	.rowSpieler .info {
+		align-self: flex-start;
+	}
+
+	.info .detail {
+		font-size: 14px;
+		display: flex;
+		margin-top: 8px;
+		margin-left: 10px;
+	}
+
+	.info .col {
+		margin-right: 40px;
+	}
+
+	.coldetail {
+		display: inline-block;
+		color: #777;
+		width: 110px;
+	}
+	/*]]>*/
+</style>
+
+<select id="hg_teamSelect" size="3" multiple <<displayNone-hg_teamSelect>>></select>
+<select id="hg_jahrSelect" <<displayNone-hg_jahrSelect>>></select>
+<span id="hg_alle" <<displayNone-hg_alle>>>
+	<input type="radio" name="alle" value="1" checked>Alle Spiele
+	<input type="radio" name="alle" value="0">Nur Meisterschaft
+</span>
+
+<div id="spielerListe">
+	<div class="list"></div>
+</div>
+
+
+
