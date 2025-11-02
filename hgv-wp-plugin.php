@@ -3,8 +3,8 @@
 Plugin Name: HGT WP Plugin
 Plugin URI: https://github.com/eidg-hornusserverband/hgt-wp-plugin
 Description: Plugin für die Integration der HGV-Daten.
-Version: 1.2
-Author: Reto Zoss
+Version: 2.0
+Author: EHV - EDVK
 Author URI: https://ehv.ch
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -90,7 +90,7 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 );
 
 //Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('main');
+$myUpdateChecker->setBranch('development');
 
 function hgv_register_block($attributes) {
     register_block_type( __DIR__ . '/src/blocks.json' );
