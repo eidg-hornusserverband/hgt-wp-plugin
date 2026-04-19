@@ -22,7 +22,7 @@ class HGVerwaltungAdmin
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
         if (isset($_GET["success"])) {
-            $connectionIsPossible = @file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften");
+            $connectionIsPossible = @file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften?hgv_wp_pluginversion=" . HGV_PLUGIN_VERSION);
             if (strlen($connectionIsPossible) > 2) {
                 echo '
                 <div class="updated">

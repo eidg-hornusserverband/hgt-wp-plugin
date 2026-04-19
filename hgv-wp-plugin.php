@@ -3,15 +3,16 @@
 Plugin Name: HGT WP Plugin
 Plugin URI: https://github.com/eidg-hornusserverband/hgt-wp-plugin
 Description: Plugin für die Integration der HGV-Daten.
-Version: 2.0.1
+Version: 2.0.2
 Author: EHV - EDVK
 Author URI: https://ehv.ch
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+if (! defined('ABSPATH')) {
+   exit; // Exit if accessed directly.
 }
+define('HGV_PLUGIN_VERSION', '2.0.2');
 
 $hgv_pluginName = "HGVerwaltung";
 $hgv_optionsCode = "wpv_code";
@@ -90,9 +91,8 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 
 //Set the branch that contains the stable release.
 
-if($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == "*.local") {
+if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == "*.local") {
    $myUpdateChecker->setBranch('development');
 } else {
    $myUpdateChecker->setBranch('main');
 }
-

@@ -103,9 +103,9 @@ class HGVerwaltungFrontend
     }
     public static function getHelpPatterns($selecter = "alle")
     {
-        if (strlen(@file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften")) > 2) {
-            $teamsarray = json_decode(file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften"));
-            $jahrarray = json_decode(file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/spiele/jahre"));
+        if (strlen(@file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften?hgv_wp_pluginversion=" . HGV_PLUGIN_VERSION)) > 2) {
+            $teamsarray = json_decode(file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften?hgv_wp_pluginversion=" . HGV_PLUGIN_VERSION));
+            $jahrarray = json_decode(file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/spiele/jahre?hgv_wp_pluginversion=" . HGV_PLUGIN_VERSION));
         } else {
             $teamsarray = array("no Connection");
             $jahrarray = array("no Connection");
