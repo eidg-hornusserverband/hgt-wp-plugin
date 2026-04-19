@@ -34,6 +34,9 @@ add_shortcode("hgv", array("HGVerwaltungFrontend", 'hgv_shortcode'));
 require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/admin/hgVerwaltungAdmin.php");
 require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/frontend/hgVerwaltungFrontend.php");
 
+require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/admin/hgVerwaltungAdmin.php");
+require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/frontend/hgVerwaltungFrontend.php");
+
 
 function register_hgv_patterns()
 {
@@ -63,6 +66,10 @@ function hgV_install()
    if (!wp_next_scheduled('hgv_schedule_cron_event')) {
       wp_schedule_event(time(), 'daily', 'hgv_schedule_cron_event');
    }
+
+   if (!wp_next_scheduled('hgv_schedule_cron_event')) {
+      wp_schedule_event(time(), 'daily', 'hgv_schedule_cron_event');
+   }
 }
 
 
@@ -70,13 +77,16 @@ function hgv_uninstall()
 {
    delete_option("wpv_code");
    delete_option("wpv_date_format");
+   delete_option("wpv_date_format");
    delete_option("wpv_inDevMode");
 }
 
 function hgv_deactivate()
 {
    wp_clear_scheduled_hook('hgv_schedule_cron');
+   wp_clear_scheduled_hook('hgv_schedule_cron');
 }
+
 
 
 require 'plugin-update-checker/plugin-update-checker.php';
