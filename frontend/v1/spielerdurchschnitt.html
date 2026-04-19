@@ -1,0 +1,187 @@
+<script src="https://hgverwaltung.ch/polyfill/v3/polyfill.min.js?features=fetch"></script>
+<script src="https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js"></script>
+<script src="https://hgverwaltung.ch/static/hgutil-1.1.js"></script>
+
+<style>
+    /* <![CDATA[ */
+	#hg_jahrSelect,
+	#hg_spielerSelect,
+	#hg_data,
+	#hg_alle {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	}
+
+	#hg_jahrSelect,
+	#hg_spielerSelect,
+	#hg_alle,
+	#hg_alle input {
+		vertical-align: top;
+	}
+
+	#hg_data tbody tr:nth-child(odd) {
+		background-color: #ebeff4;
+	}
+
+	#hg_data tr {
+		text-align: left;
+	}
+
+	#hg_data th {
+		cursor: default;
+	}
+
+	#hg_data .hg_number {
+		text-align: right;
+		padding-right: 5px;
+	}
+
+	#hg_data td {
+		width: 40px;
+		white-space: nowrap;
+	}
+
+	#hg_data td.art {
+		width: 200px;
+	}
+
+	#hg_data td.gegner {
+		width: 200px;
+	}
+
+	#hg_data .sort.asc::after {
+		content: "\25b2";
+	}
+
+	#hg_data .sort.desc::after {
+		content: "\25bc";
+	}
+
+	#hg_total_tr td {
+		font-weight: bold;
+	}
+	/*]]>*/
+</style>
+
+<select id="hg_spielerSelect"></select>
+<select id="hg_jahrSelect" <<displayNone-hg_jahrSelect>>></select>
+<span id="hg_alle" <<displayNone-hg_alle>>>
+	<input type="radio" name="alle" value="1" checked>Alle Spiele
+	<input type="radio" name="alle" value="0">Nur Meisterschaft
+</span>
+
+<table id="hg_data" style="display: none;">
+	<thead>
+		<tr>
+			<th colspan="3"></th>
+			<th colspan="8">Ries</th>
+			<th colspan="3">Spiel</th>
+			<th colspan="3">Kumuliert</th>
+			<th></th>
+		</tr>
+		<tr>
+			<th class="sort" data-sort="datum">Datum</th>
+			<th class="sort" data-sort="art">Art</th>
+			<th class="sort" data-sort="gegner">Gegner</th>
+			<th class="sort hg_number" data-sort="ries1">1</th>
+			<th class="sort hg_number" data-sort="ries2">2</th>
+			<th class="sort hg_number" data-sort="ries3">3</th>
+			<th class="sort hg_number" data-sort="ries4">4</th>
+			<th class="sort hg_number" data-sort="ries5">5</th>
+			<th class="sort hg_number" data-sort="ries6">6</th>
+			<th class="sort hg_number" data-sort="ries7">7</th>
+			<th class="sort hg_number" data-sort="ries8">8</th>
+			<th class="sort hg_number" data-sort="punkte">Punkte</th>
+			<th class="sort hg_number" data-sort="streiche">Streiche</th>
+			<th class="sort hg_number" data-sort="schnitt">Durchschnitt</th>
+			<th class="sort hg_number" data-sort="punkteKumuliert">Punkte</th>
+			<th class="sort hg_number" data-sort="streicheKumuliert">Streiche</th>
+			<th class="sort hg_number" data-sort="schnittKumuliert">Durchschnitt</th>
+			<th class="sort hg_number" data-sort="rangpunkte">Rangpunkte</th>
+		</tr>
+	</thead>
+	<tbody class="hg_list">
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tfoot>
+</table>
+
+<table style="display: none;">
+	<tr id="hg_tr_template">
+		<td class="datumDisplay"></td>
+		<td class="art"></td>
+		<td class="gegner"></td>
+		<td class="ries1 hg_number"></td>
+		<td class="ries2 hg_number"></td>
+		<td class="ries3 hg_number"></td>
+		<td class="ries4 hg_number"></td>
+		<td class="ries5 hg_number"></td>
+		<td class="ries6 hg_number"></td>
+		<td class="ries7 hg_number"></td>
+		<td class="ries8 hg_number"></td>
+		<td class="punkte hg_number"></td>
+		<td class="streiche hg_number"></td>
+		<td class="schnitt hg_number"></td>
+		<td class="punkteKumuliert hg_number"></td>
+		<td class="streicheKumuliert hg_number"></td>
+		<td class="schnittKumuliert hg_number"></td>
+		<td class="rangpunkte hg_number"></td>
+	</tr>
+	<tr id="hg_total_tr">
+		<td colspan="3" class="total_label"></td>
+		<td class="total_ries1 hg_number"></td>
+		<td class="total_ries2 hg_number"></td>
+		<td class="total_ries3 hg_number"></td>
+		<td class="total_ries4 hg_number"></td>
+		<td class="total_ries5 hg_number"></td>
+		<td class="total_ries6 hg_number"></td>
+		<td class="total_ries7 hg_number"></td>
+		<td class="total_ries8 hg_number"></td>
+		<td class="total_punkte hg_number"></td>
+		<td class="total_streiche hg_number"></td>
+		<td class="total_schnitt hg_number"></td>
+		<td colspan="4"></td>
+	</tr>
+</table>
+
+
+

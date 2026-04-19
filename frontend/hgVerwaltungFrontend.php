@@ -5,24 +5,57 @@ class HGVerwaltungFrontend
     {
         $hgv_club = get_option("wpv_code", "test");
 
-        (isset($shortcode["mannschaft"])) ? $mannschaft = $shortcode["mannschaft"] : $mannschaft = "Alle";
-        (isset($shortcode["inklspiele"])) ? $inklSpiele = $shortcode["inklspiele"] : $inklSpiele = false;
-        (!$inklSpiele) ? $inklSpiele = "false" : $inklSpiele = "true";
-        (isset($shortcode["nurmeisterschaft"])) ? $nurMeisterschaft = $shortcode["nurmeisterschaft"] : $nurMeisterschaft = false;
-        ($nurMeisterschaft == "false") ? $nurMeisterschaft = "0" : $nurMeisterschaft = "1";
-        (isset($shortcode["jahr"])) ? $jahr = $shortcode["jahr"] : $jahr = date("Y");
-        (isset($shortcode["style"])) ? $style = $shortcode["style"] : $style = "";
-        (isset($shortcode["class"])) ? $class = $shortcode["class"] : $class = "";
+        if (isset($shortcode["teamselect"])) {
+            $teamselect = $shortcode["teamselect"];
+        } else {
+            $teamselect = "Alle";
+        }
+        if (isset($shortcode["hideteamselect"])) {
+            $hideteamselect = $shortcode["hideteamselect"] == "1";
+        } else {
+            $hideteamselect = false;
+        }
+        if (isset($shortcode["jahrselect"])) {
+            $jahrselect = $shortcode["jahrselect"];
+        } else {
+            $jahrselect = date("Y");
+        }
+        if (isset($shortcode["hidejahrselect"])) {
+            $hidejahrselect = $shortcode["hidejahrselect"] == "1";
+        } else {
+            $hidejahrselect = false;
+        }
+        if (isset($shortcode["alle"])) {
+            $alle = $shortcode["alle"];
+        } else {
+            $alle = false;
+        }
+        if (isset($shortcode["hidealle"])) {
+            $hidealle = ($shortcode["hidealle"] == "1");
+        } else {
+            $hidealle = true;
+        }
 
 
-        $plugin_content = file_get_contents(WP_PLUGIN_DIR . "/hgv-wp-plugin/frontend/v1/$page.html");
+        $plugin_content = file_get_contents(WP_PLUGIN_DIR . "/hgt-wp-plugin/frontend/v1/$page.html");
+
         $plugin_content = str_replace("<<hgv_code>>", $hgv_club, $plugin_content);
-        $plugin_content = str_replace("<<hgv_mannschaft>>", $mannschaft, $plugin_content);
-        $plugin_content = str_replace("<<inklSpiele>>", $inklSpiele, $plugin_content);
-        $plugin_content = str_replace("<<nurMeisterschaft>>", $nurMeisterschaft, $plugin_content);
-        $plugin_content = str_replace("<<jahr>>", $jahr, $plugin_content);
-        $plugin_content = str_replace("<<style>>", $style, $plugin_content);
-        $plugin_content = str_replace("<<hgv_class>>", $class, $plugin_content);
+        $plugin_content = str_replace("<<hgv_mannschaft>>", $teamselect, $plugin_content);
+        $plugin_content = str_replace("<<jahr>>", $jahrselect, $plugin_content);
+
+        $plugin_content = str_replace("<<displayNone-hg_teamSelect>>", ($hideteamselect) ? 'style="display:none;"' : '', $plugin_content);
+        $plugin_content = str_replace("<<displayNone-hg_jahrSelect>>", ($hidejahrselect) ? 'style="display:none;"' : '', $plugin_content);
+        $plugin_content = str_replace("<<displayNone-hg_alle>>", ($hidealle) ? 'style="display:none;"' : '', $plugin_content);
+
+        wp_enqueue_script('hgv-script', WP_PLUGIN_URL . "/hgt-wp-plugin/frontend/v1/$page.js", array(), '1.0', true);
+        wp_enqueue_script('hgv-helper-script', WP_PLUGIN_URL . "/hgt-wp-plugin/frontend/v1/selectHelperFunctions.js", array(), '1.0', true);
+        wp_localize_script('hgv-script', 'hgvScriptData', [
+            'hgv_code' => $hgv_club,
+            'jahr' => $jahrselect,
+            'mannschaft' => $teamselect,
+            'nurMeisterschaft' => $alle,
+        ]);
+
         return $plugin_content;
     }
 
@@ -49,7 +82,6 @@ class HGVerwaltungFrontend
 
                 case 'spielerpunktegrafisch':
                     return self::replace_hgvCode("spielerpunktegrafisch", $shortcode);
-                    break;
                     break;
 
                 case 'spielemitresultat':

@@ -8,31 +8,38 @@ and open the template in the editor.
     Author     : Reto
 */
 
-.hg_manager_kaltable_small
-{display: none;}
+.hg_manager_kaltable_small {
+    display: none;
+}
 
-.hg_manager_kaltable_width
-{display: table-cell;}
+.hg_manager_kaltable_width {
+    display: table-cell;
+}
 
-.kalender_datum
-{
+.kalender_datum {
     width: 130px;
     max-width: 130px;
 }
-.kalender_zeit
-{min-width: 80px;}
-.hg-manager-kalender-table-public-head
-{background-color: #cccccc}
 
-.hg-manager-kalender-table-public tr:nth-child(even){
+.kalender_zeit {
+    min-width: 80px;
+}
+
+.hg-manager-kalender-table-public-head {
+    background-color: #cccccc
+}
+
+.hg-manager-kalender-table-public tr:nth-child(even) {
     background-color: #cccccc;
-    }
+}
 
 @media only screen and (max-width: 640px) {
-    .hg_manager_kaltable_small
-    {display: table-cell;}
+    .hg_manager_kaltable_small {
+        display: table-cell;
+    }
 
-    .hg_manager_kaltable_width
-    {display: none;}
+    .hg_manager_kaltable_width {
+        display: none;
+    }
 
 }
