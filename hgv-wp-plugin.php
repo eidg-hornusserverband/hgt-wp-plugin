@@ -3,7 +3,7 @@
 Plugin Name: HGT WP Plugin
 Plugin URI: https://github.com/eidg-hornusserverband/hgt-wp-plugin
 Description: Plugin für die Integration der HGV-Daten.
-Version: 2.0.2
+Version: 2.0.3
 Author: EHV - EDVK
 Author URI: https://ehv.ch
 License: GPL2
@@ -12,7 +12,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 if (! defined('ABSPATH')) {
    exit; // Exit if accessed directly.
 }
-define('HGV_PLUGIN_VERSION', '2.0.2');
+define('HGV_PLUGIN_VERSION', '2.0.3');
 
 $hgv_pluginName = "HGVerwaltung";
 $hgv_optionsCode = "wpv_code";
@@ -30,9 +30,6 @@ add_action('init', 'register_hgv_patterns');
 
 
 add_shortcode("hgv", array("HGVerwaltungFrontend", 'hgv_shortcode'));
-
-require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/admin/hgVerwaltungAdmin.php");
-require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/frontend/hgVerwaltungFrontend.php");
 
 require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/admin/hgVerwaltungAdmin.php");
 require_once(WP_PLUGIN_DIR . "/hgt-wp-plugin/frontend/hgVerwaltungFrontend.php");
@@ -67,9 +64,6 @@ function hgV_install()
       wp_schedule_event(time(), 'daily', 'hgv_schedule_cron_event');
    }
 
-   if (!wp_next_scheduled('hgv_schedule_cron_event')) {
-      wp_schedule_event(time(), 'daily', 'hgv_schedule_cron_event');
-   }
 }
 
 
@@ -77,13 +71,11 @@ function hgv_uninstall()
 {
    delete_option("wpv_code");
    delete_option("wpv_date_format");
-   delete_option("wpv_date_format");
    delete_option("wpv_inDevMode");
 }
 
 function hgv_deactivate()
 {
-   wp_clear_scheduled_hook('hgv_schedule_cron');
    wp_clear_scheduled_hook('hgv_schedule_cron');
 }
 
