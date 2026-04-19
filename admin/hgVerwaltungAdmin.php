@@ -18,11 +18,13 @@ class HGVerwaltungAdmin
         $plugin_name = "wp-hgverwaltung";
         $plugin_options_nonce = wp_create_nonce('hgv_plugin_options_nonce_form');
 
+        $plugin_options_nonce = wp_create_nonce('hgv_plugin_options_nonce_form');
+
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.'));
         }
         if (isset($_GET["success"])) {
-            $connectionIsPossible = @file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften");
+            $connectionIsPossible = @file_get_contents("https://www.hgverwaltung.ch/api/1/" . get_option("wpv_code", "test") . "/mannschaften?hgv_wp_pluginversion=" . HGV_PLUGIN_VERSION);
             if (strlen($connectionIsPossible) > 2) {
                 echo '
                 <div class="updated">
@@ -53,6 +55,8 @@ class HGVerwaltungAdmin
             $hgv_Webcode = sanitize_key($_POST['hgv']['club_webcode']);
             update_option("wpv_code", $hgv_Webcode);
             $hgv_date_format = sanitize_option("date_format", $_POST['hgv']['date_format']);
+            if (!$hgv_date_format == "custom") {
+                $hgv_date_format = sanitize_option("date_format", $_POST['hgv']['date_format_custom']);
             if (!$hgv_date_format == "custom") {
                 $hgv_date_format = sanitize_option("date_format", $_POST['hgv']['date_format_custom']);
             }
