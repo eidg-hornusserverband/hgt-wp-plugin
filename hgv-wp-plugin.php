@@ -3,7 +3,7 @@
 Plugin Name: HGT WP Plugin
 Plugin URI: https://github.com/eidg-hornusserverband/hgt-wp-plugin
 Description: Plugin für die Integration der HGV-Daten.
-Version: 2.0.0
+Version: 2.0.1
 Author: EHV - EDVK
 Author URI: https://ehv.ch
 License: GPL2
@@ -26,7 +26,6 @@ add_action('admin_menu', array("HGVerwaltungAdmin", 'addAdminPages'));
 add_action('admin_post_hgV_wpvCode', array("HGVerwaltungAdmin", 'hgV_wpvCode_response'));
 add_action('init', 'register_hgv_pattern_categories');
 add_action('init', 'register_hgv_patterns');
-add_action('hgv_schedule_cron_event', 'hgv_schedule_cron'); //could be used for statistics
 
 
 add_shortcode("hgv", array("HGVerwaltungFrontend", 'hgv_shortcode'));
